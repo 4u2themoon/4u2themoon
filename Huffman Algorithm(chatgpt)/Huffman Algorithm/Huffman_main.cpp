@@ -5,24 +5,24 @@
 
 using namespace std;
 
-// ¶¨Òå¹ş·òÂüÊ÷½áµã
+// å®šä¹‰å“ˆå¤«æ›¼æ ‘ç»“ç‚¹
 struct Node {
-    char data;           // ´æ´¢×Ö·û
-    int frequency;       // ×Ö·ûÆµÂÊ
-    Node* left;          // ×ó×ÓÊ÷
-    Node* right;         // ÓÒ×ÓÊ÷
+    char data;           // å­˜å‚¨å­—ç¬¦
+    int frequency;       // å­—ç¬¦é¢‘ç‡(æƒå€¼)
+    Node* left;          // å·¦å­æ ‘
+    Node* right;         // å³å­æ ‘
 
     Node(char data, int frequency) : data(data), frequency(frequency), left(nullptr), right(nullptr) {}
 };
 
-// ÓÃÓÚ±È½Ï½áµãµÄÆµÂÊ£¬¹¹½¨ÓÅÏÈ¼¶¶ÓÁĞ
+// ç”¨äºæ¯”è¾ƒç»“ç‚¹çš„é¢‘ç‡ï¼Œæ„å»ºä¼˜å…ˆçº§é˜Ÿåˆ—
 struct Compare {
     bool operator()(Node* left, Node* right) {
         return left->frequency > right->frequency;
     }
 };
 
-// ¹¹½¨¹ş·òÂüÊ÷
+// æ„å»ºå“ˆå¤«æ›¼æ ‘
 Node* buildHuffmanTree(const unordered_map<char, int>& frequencies) {
     priority_queue<Node*, vector<Node*>, Compare> pq;
 
@@ -44,7 +44,7 @@ Node* buildHuffmanTree(const unordered_map<char, int>& frequencies) {
     return pq.top();
 }
 
-// µİ¹éÉú³É¹ş·òÂü±àÂë
+// é€’å½’ç”Ÿæˆå“ˆå¤«æ›¼ç¼–ç 
 void generateHuffmanCodes(Node* root, const string& currentCode, unordered_map<char, string>& codes) {
     if (root) {
         if (root->data != '\0') {
@@ -55,7 +55,7 @@ void generateHuffmanCodes(Node* root, const string& currentCode, unordered_map<c
     }
 }
 
-// Ê¹ÓÃ¹ş·òÂü±àÂëÑ¹ËõÎÄ±¾
+// ä½¿ç”¨å“ˆå¤«æ›¼ç¼–ç å‹ç¼©æ–‡æœ¬
 string compress(const string& text, const unordered_map<char, string>& codes) {
     string compressedText;
     for (char c : text) {
@@ -64,7 +64,7 @@ string compress(const string& text, const unordered_map<char, string>& codes) {
     return compressedText;
 }
 
-// Ê¹ÓÃ¹ş·òÂü±àÂë½âÑ¹ËõÎÄ±¾
+// ä½¿ç”¨å“ˆå¤«æ›¼ç¼–ç è§£å‹ç¼©æ–‡æœ¬
 string decompress(const string& compressedText, Node* root) {
     string decompressedText;
     Node* current = root;
@@ -88,26 +88,26 @@ string decompress(const string& compressedText, Node* root) {
 
 int main() {
     string text;
-    cout << "ÇëÊäÈëÎÄµµÄÚÈİ: ";
+    cout << "è¯·è¾“å…¥æ–‡æ¡£å†…å®¹: ";
     cin >> text;
-    // Í³¼Æ×Ö·ûÆµÂÊ
+    // ç»Ÿè®¡å­—ç¬¦é¢‘ç‡
     unordered_map<char, int> frequencies;
     for (char c : text) {
         frequencies[c]++;
     }
 
-    // ¹¹½¨¹ş·òÂüÊ÷
+    // æ„å»ºå“ˆå¤«æ›¼æ ‘
     Node* huffmanTree = buildHuffmanTree(frequencies);
 
-    // Éú³É¹ş·òÂü±àÂë
+    // ç”Ÿæˆå“ˆå¤«æ›¼ç¼–ç 
     unordered_map<char, string> huffmanCodes;
     generateHuffmanCodes(huffmanTree, "", huffmanCodes);
 
-    // Ñ¹ËõÎÄ±¾
+    // å‹ç¼©æ–‡æœ¬
     string compressedText = compress(text, huffmanCodes);
     cout << "Compressed Text: " << compressedText << endl;
 
-    // ½âÑ¹ËõÎÄ±¾
+    // è§£å‹ç¼©æ–‡æœ¬
     string decompressedText = decompress(compressedText, huffmanTree);
     cout << "Decompressed Text: " << decompressedText << endl;
 
